@@ -75,3 +75,9 @@ bin/
 ### OS ###
 .DS_Store
 Thumbs.db
+
+### Local volumes ###
+# Folders mounted into the containers: database files and anything generated
+# from a household's own books. Never commit this folder: its contents are
+# private and may be copyrighted.
+/volumes/

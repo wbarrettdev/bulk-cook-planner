@@ -31,3 +31,21 @@ services:
       --jinja
       --host 0.0.0.0
       --port 8080
+
+  # Each service keeps its files on disk under VOLUMES_DIR (default ./volumes,
+  # which git ignores), in a folder named after the service. They survive
+  # `docker compose down -v` and can be copied to another machine (stop the
+  # service first).
+  graphdb:
+    image: neo4j:5-community
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    ports:
+      - "127.0.0.1:${GRAPH_HTTP_PORT:-7474}:7474"
+      - "127.0.0.1:${GRAPH_BOLT_PORT:-7687}:7687"
+    environment:
+      - NEO4J_AUTH=none
+      - NEO4J_server_memory_heap_max__size=1G
+    volumes:
+      - ${VOLUMES_DIR:-./volumes}/graphdb/data:/data
+      - ${VOLUMES_DIR:-./volumes}/graphdb/logs:/logs
+      - ${VOLUMES_DIR:-./volumes}/graphdb/import:/import:ro

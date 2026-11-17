@@ -1,0 +1,74 @@
+set_id,name
+0,tomatoes
+0,basil
+0,mozzarella
+0,olive oil
+1,tomatoes
+1,garlic
+1,onions
+1,oregano
+2,basil
+2,garlic
+2,parmesan
+2,pine nuts
+2,olive oil
+3,salmon
+3,dill
+3,lemon
+3,yoghurt
+4,salmon
+4,ginger
+4,soy sauce
+4,honey
+5,chicken
+5,lemon
+5,garlic
+5,thyme
+6,chicken
+6,leeks
+6,mustard
+6,cream
+7,lamb
+7,rosemary
+7,garlic
+7,lemon
+8,lamb
+8,cumin
+8,yoghurt
+8,mint
+9,chickpeas
+9,tahini
+9,lemon
+9,garlic
+10,chickpeas
+10,spinach
+10,cumin
+10,tomatoes
+11,potatoes
+11,leeks
+11,butter
+11,chives
+12,carrots
+12,ginger
+12,orange
+13,oats
+13,banana
+13,cinnamon
+13,peanut butter
+14,yoghurt
+14,cucumber
+14,mint
+14,garlic
+15,beef
+15,mushrooms
+15,red wine
+15,thyme
+15,onions
+16,ginger
+16,garlic
+16,spring onions
+16,soy sauce
+17,mushrooms
+17,garlic
+17,thyme
+17,butter

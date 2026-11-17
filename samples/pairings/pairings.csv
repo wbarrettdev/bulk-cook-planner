@@ -1,0 +1,314 @@
+from,to,strength,note,source
+chicken,garlic,3,,sample
+chicken,lemon,3,,sample
+chicken,thyme,3,,sample
+chicken,onions,2,,sample
+chicken,rosemary,2,,sample
+chicken,tarragon,2,,sample
+chicken,paprika,2,esp. smoked,sample
+chicken,ginger,2,,sample
+chicken,mustard,2,,sample
+chicken,yoghurt,2,,sample
+chicken,leeks,2,,sample
+chicken,mushrooms,2,,sample
+chicken,rice,2,,sample
+chicken,soy sauce,2,,sample
+chicken,white wine,2,,sample
+chicken,carrots,1,,sample
+chicken,honey,1,,sample
+chicken,cumin,1,,sample
+chicken,chickpeas,1,,sample
+chicken,cream,1,,sample
+chicken,parsley,1,,sample
+salmon,dill,4,,sample
+salmon,lemon,3,,sample
+salmon,mustard,2,esp. Dijon,sample
+salmon,ginger,2,,sample
+salmon,soy sauce,2,,sample
+salmon,capers,2,,sample
+salmon,potatoes,2,,sample
+salmon,cucumber,2,,sample
+salmon,chives,2,,sample
+salmon,miso,2,,sample
+salmon,butter,2,,sample
+salmon,fennel,2,,sample
+salmon,yoghurt,1,,sample
+salmon,leeks,1,,sample
+salmon,spinach,1,,sample
+salmon,honey,1,,sample
+salmon,lime,1,,sample
+salmon,peas,1,,sample
+beef,onions,3,,sample
+beef,garlic,3,,sample
+beef,red wine,3,,sample
+beef,mushrooms,3,,sample
+beef,black pepper,3,,sample
+beef,thyme,2,,sample
+beef,mustard,2,,sample
+beef,horseradish,2,,sample
+beef,carrots,2,,sample
+beef,potatoes,2,,sample
+beef,rosemary,2,,sample
+beef,bay leaf,2,,sample
+beef,tomatoes,2,,sample
+beef,porcini mushrooms,2,,sample
+beef,soy sauce,1,,sample
+beef,ginger,1,,sample
+beef,barley,1,,sample
+beef,paprika,1,,sample
+lamb,rosemary,4,,sample
+lamb,garlic,3,,sample
+lamb,mint,3,,sample
+lamb,thyme,2,,sample
+lamb,cumin,2,,sample
+lamb,lemon,2,,sample
+lamb,yoghurt,2,,sample
+lamb,aubergine,2,,sample
+lamb,tomatoes,2,,sample
+lamb,coriander seed,2,,sample
+lamb,oregano,2,,sample
+lamb,red wine,2,,sample
+lamb,chickpeas,1,,sample
+lamb,cinnamon,1,,sample
+lamb,apricots,1,,sample
+chickpeas,tahini,4,,sample
+chickpeas,cumin,3,,sample
+chickpeas,lemon,3,,sample
+chickpeas,garlic,3,,sample
+chickpeas,olive oil,2,,sample
+chickpeas,coriander leaf,2,,sample
+chickpeas,smoked paprika,2,,sample
+chickpeas,spinach,2,,sample
+chickpeas,tomatoes,2,,sample
+chickpeas,onions,2,,sample
+chickpeas,parsley,2,,sample
+chickpeas,yoghurt,1,,sample
+chickpeas,chilli,1,,sample
+chickpeas,turmeric,1,,sample
+lentils,onions,2,,sample
+lentils,carrots,2,,sample
+lentils,cumin,2,,sample
+lentils,bay leaf,2,,sample
+lentils,garlic,2,,sample
+lentils,tomatoes,2,,sample
+lentils,spinach,2,,sample
+lentils,lemon,2,,sample
+lentils,turmeric,2,,sample
+lentils,thyme,1,,sample
+lentils,coriander leaf,1,,sample
+lentils,ginger,1,,sample
+lentils,coconut milk,1,,sample
+tomatoes,basil,4,,sample
+tomatoes,garlic,3,,sample
+tomatoes,olive oil,3,,sample
+tomatoes,mozzarella,3,,sample
+tomatoes,italian cuisine,3,,sample
+tomatoes,onions,2,,sample
+tomatoes,oregano,2,,sample
+tomatoes,feta,2,,sample
+tomatoes,chilli,2,,sample
+tomatoes,balsamic vinegar,2,,sample
+tomatoes,aubergine,2,,sample
+tomatoes,parmesan,2,,sample
+tomatoes,thyme,1,,sample
+tomatoes,parsley,1,,sample
+tomatoes,capers,1,,sample
+potatoes,butter,3,,sample
+potatoes,rosemary,3,,sample
+potatoes,garlic,3,,sample
+potatoes,leeks,3,,sample
+potatoes,chives,2,,sample
+potatoes,thyme,2,,sample
+potatoes,parsley,2,,sample
+potatoes,olive oil,2,,sample
+potatoes,onions,2,,sample
+potatoes,cheese,2,esp. mature Cheddar,sample
+potatoes,cream,2,,sample
+potatoes,mustard,1,,sample
+potatoes,bay leaf,1,,sample
+potatoes,paprika,1,,sample
+potatoes,dill,1,,sample
+spinach,garlic,3,,sample
+spinach,nutmeg,3,,sample
+spinach,lemon,2,,sample
+spinach,feta,2,,sample
+spinach,eggs,2,,sample
+spinach,cream,2,,sample
+spinach,parmesan,2,,sample
+spinach,mushrooms,2,,sample
+spinach,chickpeas,1,,sample
+spinach,onions,1,,sample
+eggs,chives,3,,sample
+eggs,spinach,2,,sample
+eggs,cheese,2,,sample
+eggs,mushrooms,2,,sample
+eggs,tomatoes,2,,sample
+eggs,butter,2,,sample
+eggs,black pepper,2,,sample
+eggs,parsley,1,,sample
+eggs,paprika,1,,sample
+eggs,onions,1,,sample
+rice,peas,2,,sample
+rice,coriander leaf,2,,sample
+rice,lime,2,,sample
+rice,soy sauce,2,,sample
+rice,ginger,2,,sample
+rice,coconut milk,2,,sample
+rice,onions,1,,sample
+rice,garlic,1,,sample
+rice,bay leaf,1,,sample
+rice,turmeric,1,,sample
+rice,cumin,1,,sample
+rice,butter,1,,sample
+rice,lemon,1,,sample
+rice,parsley,1,,sample
+carrots,ginger,3,,sample
+carrots,orange,3,juice and zest,sample
+carrots,cumin,2,,sample
+carrots,coriander seed,2,,sample
+carrots,honey,2,,sample
+carrots,thyme,2,,sample
+carrots,parsley,2,,sample
+carrots,butter,2,,sample
+carrots,dill,1,,sample
+carrots,cinnamon,1,,sample
+carrots,lemon,1,,sample
+leeks,potatoes,3,,sample
+leeks,butter,2,,sample
+leeks,thyme,2,,sample
+leeks,cream,2,,sample
+leeks,mustard,2,,sample
+leeks,chicken,2,,sample
+leeks,cheese,2,,sample
+leeks,parsley,1,,sample
+leeks,white wine,1,,sample
+leeks,bay leaf,1,,sample
+mushrooms,garlic,3,,sample
+mushrooms,thyme,3,,sample
+mushrooms,beef,3,,sample
+mushrooms,butter,2,,sample
+mushrooms,parsley,2,,sample
+mushrooms,cream,2,,sample
+mushrooms,eggs,2,,sample
+mushrooms,spinach,2,,sample
+mushrooms,soy sauce,2,,sample
+mushrooms,onions,2,,sample
+mushrooms,white wine,2,,sample
+mushrooms,chicken,2,,sample
+mushrooms,barley,1,,sample
+basil,tomatoes,4,,sample
+basil,italian cuisine,4,,sample
+basil,garlic,3,,sample
+basil,olive oil,3,,sample
+basil,mozzarella,3,,sample
+basil,parmesan,3,,sample
+basil,pine nuts,3,,sample
+basil,cherry tomatoes,3,,sample
+basil,lemon,2,,sample
+basil,courgette,2,,sample
+basil,chicken,1,,sample
+basil,strawberries,1,,sample
+basil,aubergine,1,,sample
+rosemary,lamb,4,,sample
+rosemary,potatoes,3,,sample
+rosemary,garlic,3,,sample
+rosemary,chicken,2,,sample
+rosemary,lemon,2,,sample
+rosemary,olive oil,2,,sample
+rosemary,beef,2,,sample
+rosemary,thyme,2,,sample
+rosemary,white beans,2,,sample
+rosemary,honey,1,,sample
+rosemary,orange,1,,sample
+dill,salmon,4,,sample
+dill,cucumber,3,,sample
+dill,yoghurt,3,,sample
+dill,scandinavian cuisine,3,,sample
+dill,potatoes,2,,sample
+dill,lemon,2,,sample
+dill,mustard,2,,sample
+dill,beetroot,2,,sample
+dill,eggs,1,,sample
+dill,carrots,1,,sample
+dill,peas,1,,sample
+mint,peas,4,,sample
+mint,lamb,3,,sample
+mint,yoghurt,3,,sample
+mint,cucumber,3,,sample
+mint,lime,3,,sample
+mint,lemon,2,,sample
+mint,feta,2,,sample
+mint,courgette,2,,sample
+mint,middle eastern cuisine,2,,sample
+mint,chilli,1,,sample
+mint,potatoes,1,,sample
+mint,berries,1,,sample
+ginger,garlic,3,,sample
+ginger,soy sauce,3,,sample
+ginger,carrots,3,,sample
+ginger,spring onions,3,,sample
+ginger,chinese cuisine,3,,sample
+ginger,chilli,2,,sample
+ginger,lime,2,,sample
+ginger,chicken,2,,sample
+ginger,salmon,2,,sample
+ginger,honey,2,,sample
+ginger,coriander leaf,2,,sample
+ginger,lemon,2,,sample
+ginger,turmeric,2,,sample
+ginger,coconut milk,2,,sample
+ginger,beef,1,,sample
+cumin,coriander seed,4,,sample
+cumin,chickpeas,3,,sample
+cumin,indian cuisine,3,,sample
+cumin,lamb,2,,sample
+cumin,carrots,2,,sample
+cumin,paprika,2,,sample
+cumin,chilli,2,,sample
+cumin,lentils,2,,sample
+cumin,yoghurt,2,,sample
+cumin,garlic,2,,sample
+cumin,turmeric,2,,sample
+cumin,middle eastern cuisine,2,,sample
+cumin,tomatoes,1,,sample
+cumin,lime,1,,sample
+cumin,cinnamon,1,,sample
+lemon,chicken,3,,sample
+lemon,salmon,3,,sample
+lemon,olive oil,3,,sample
+lemon,garlic,2,,sample
+lemon,thyme,2,,sample
+lemon,parsley,2,,sample
+lemon,dill,2,,sample
+lemon,chickpeas,2,,sample
+lemon,honey,2,,sample
+lemon,ginger,2,,sample
+lemon,yoghurt,2,,sample
+lemon,mint,2,,sample
+lemon,capers,2,,sample
+lemon,basil,2,,sample
+lemon,rosemary,2,,sample
+lemon,spinach,1,,sample
+yoghurt,cucumber,3,,sample
+yoghurt,mint,3,,sample
+yoghurt,honey,3,,sample
+yoghurt,berries,3,,sample
+yoghurt,dill,2,,sample
+yoghurt,garlic,2,,sample
+yoghurt,lemon,2,,sample
+yoghurt,cumin,2,,sample
+yoghurt,oats,2,,sample
+yoghurt,banana,2,,sample
+yoghurt,lamb,2,,sample
+yoghurt,chickpeas,1,,sample
+yoghurt,coriander leaf,1,,sample
+oats,banana,3,,sample
+oats,cinnamon,3,,sample
+oats,honey,3,,sample
+oats,berries,3,,sample
+oats,apples,3,,sample
+oats,yoghurt,2,,sample
+oats,peanut butter,2,,sample
+oats,almonds,2,,sample
+oats,milk,2,,sample
+oats,nutmeg,1,,sample
