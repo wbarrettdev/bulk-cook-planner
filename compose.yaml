@@ -1,0 +1,33 @@
+name: bulk-cook-planner
+
+services:
+  llm:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda
+    ports:
+      - "127.0.0.1:${LLM_PORT:-8081}:8080"
+    environment:
+      - LLAMA_CACHE=/models
+    volumes:
+      - /models:/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      start_period: 30m
+      start_interval: 5s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: >
+      --hf-repo ggml-org/gpt-oss-20b-GGUF
+      --hf-file gpt-oss-20b-MXFP4.gguf
+      -ngl 99
+      -np 1
+      -c 32768
+      -fa on
+      --jinja
+      --host 0.0.0.0
+      --port 8080
