@@ -45,3 +45,17 @@ services:
       - ./volumes/graphdb/data:/data
       - ./volumes/graphdb/logs:/logs
       - ./volumes/graphdb/import:/import:ro
+
+  knowledge:
+    build:
+      context: .
+      dockerfile: knowledge/Dockerfile
+    ports:
+      - "127.0.0.1:8082:8082"
+    environment:
+      - NEO4J_URI=bolt://graphdb:7687
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      - graphdb
