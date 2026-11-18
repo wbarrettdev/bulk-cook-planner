@@ -52,4 +52,26 @@ class PairingToolsTest {
         PairingAdvice advice = (PairingAdvice) result.structuredContent();
         assertThat(advice.suggestions()).extracting(Suggestion::name).containsExactly("lemon");
     }
+
+    @Test
+    void saysInPlainWordsWhenTheGraphCannotBeReached() {
+        PairingTools cutOff = new PairingTools(new PairingAdvisor(FakeGraph.thatCannotBeReached(), noRules));
+
+        CallToolResult suggested = cutOff.suggestAdditions(List.of("salmon"), null, null);
+        CallToolResult checked = cutOff.checkPairings("salmon", List.of("dill"));
+
+        assertThat(suggested.isError()).isTrue();
+        assertThat(((TextContent) suggested.content().getFirst()).text())
+                .isEqualTo("The pairing graph can't be reached, so there are no pairings to offer right now.");
+        assertThat(checked.isError()).isTrue();
+    }
+
+    @Test
+    void refusesToListFewerThanOneAddition() {
+        CallToolResult result = tools.suggestAdditions(List.of("salmon"), 0, null);
+
+        assertThat(result.isError()).isTrue();
+        assertThat(((TextContent) result.content().getFirst()).text())
+                .isEqualTo("The limit must be at least 1, not 0.");
+    }
 }

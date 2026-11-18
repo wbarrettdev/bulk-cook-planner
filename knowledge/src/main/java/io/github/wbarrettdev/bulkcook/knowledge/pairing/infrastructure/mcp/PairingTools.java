@@ -2,8 +2,10 @@ package io.github.wbarrettdev.bulkcook.knowledge.pairing.infrastructure.mcp;
 
 import io.github.wbarrettdev.bulkcook.knowledge.pairing.application.PairingAdvisor;
 import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingAdvice;
+import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingGraph;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import java.util.List;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.mcp.annotation.McpTool;
 import org.springframework.ai.mcp.annotation.McpTool.McpAnnotations;
@@ -39,14 +41,16 @@ class PairingTools {
             @McpToolParam(description = "How many additions to list. Defaults to 10.", required = false) Integer limit,
             @McpToolParam(description = "Extra ingredients to leave out for this dish", required = false)
                     List<String> exclude) {
-        PairingAdvice advice = advisor.adviseOn(new PairingAdvisor.Request(
-                ingredients,
-                limit == null ? PairingAdvisor.Request.DEFAULT_LIMIT : limit,
-                exclude == null ? List.of() : exclude));
-        return CallToolResult.builder()
-                .addTextContent(PairingAdviceText.of(advice))
-                .structuredContent(advice)
-                .build();
+        return answer(() -> {
+            PairingAdvice advice = advisor.adviseOn(new PairingAdvisor.Request(
+                    ingredients,
+                    limit == null ? PairingAdvisor.Request.DEFAULT_LIMIT : limit,
+                    exclude == null ? List.of() : exclude));
+            return CallToolResult.builder()
+                    .addTextContent(PairingAdviceText.of(advice))
+                    .structuredContent(advice)
+                    .build();
+        });
     }
 
     @McpTool(
@@ -69,10 +73,28 @@ class PairingTools {
                             description = "The ingredients it is said to pair with, e.g. [\"chicken\", \"ginger\"]",
                             required = true)
                     List<String> partners) {
-        PairingAdvisor.Check check = advisor.check(ingredient, partners);
-        return CallToolResult.builder()
-                .addTextContent(PairingAdviceText.of(check))
-                .structuredContent(check)
-                .build();
+        return answer(() -> {
+            PairingAdvisor.Check check = advisor.check(ingredient, partners);
+            return CallToolResult.builder()
+                    .addTextContent(PairingAdviceText.of(check))
+                    .structuredContent(check)
+                    .build();
+        });
+    }
+
+    /**
+     * A problem the asker can act on comes back as the tool's answer, marked as an error, in the
+     * words written for them. Left to the server, it would arrive with the database's own error
+     * message tacked on.
+     */
+    private static CallToolResult answer(Supplier<CallToolResult> work) {
+        try {
+            return work.get();
+        } catch (PairingGraph.Unavailable | PairingAdvisor.InvalidRequest problem) {
+            return CallToolResult.builder()
+                    .isError(true)
+                    .addTextContent(problem.getMessage())
+                    .build();
+        }
     }
 }

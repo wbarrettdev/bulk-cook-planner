@@ -21,6 +21,14 @@ public final class FakeGraph implements PairingGraph {
     private final List<List<String>> combinations = new ArrayList<>();
     private final List<Avoidance> avoidances = new ArrayList<>();
 
+    private boolean reachable = true;
+
+    public static FakeGraph thatCannotBeReached() {
+        FakeGraph graph = new FakeGraph();
+        graph.reachable = false;
+        return graph;
+    }
+
     public FakeGraph entry(String name) {
         names.add(name);
         entries.add(name);
@@ -60,6 +68,7 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<Ingredient> ingredientsNamed(Collection<String> spellings) {
+        failIfUnreachable();
         return spellings.stream()
                 .filter(names::contains)
                 .map(name -> new Ingredient(name, entries.contains(name), entryKindsOf(name)))
@@ -68,11 +77,13 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<String> namesContaining(String fragment) {
+        failIfUnreachable();
         return names.stream().filter(name -> name.contains(fragment)).toList();
     }
 
     @Override
     public List<Candidate> partnersOf(Collection<String> dish) {
+        failIfUnreachable();
         Map<String, List<Pairing>> byPartner = new LinkedHashMap<>();
         pairings.stream()
                 .filter(pairing -> dish.contains(pairing.ingredient()) && !dish.contains(pairing.partner()))
@@ -86,6 +97,7 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<Combination> combinationsSharing(Collection<String> dish, int atLeast) {
+        failIfUnreachable();
         List<Combination> shared = new ArrayList<>();
         for (List<String> members : combinations) {
             List<String> have = members.stream().filter(dish::contains).toList();
@@ -102,6 +114,7 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<Avoidance> avoidancesFor(Collection<String> dish) {
+        failIfUnreachable();
         return avoidances.stream()
                 .filter(avoidance -> dish.contains(avoidance.ingredient()))
                 .toList();
@@ -109,6 +122,7 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<IngredientNotes> notesFor(Collection<String> ingredients) {
+        failIfUnreachable();
         return ingredients.stream()
                 .map(name -> new IngredientNotes(name, "", "", "", ""))
                 .toList();
@@ -116,6 +130,7 @@ public final class FakeGraph implements PairingGraph {
 
     @Override
     public List<Pairing> pairingsBetween(Collection<String> these, Collection<String> those) {
+        failIfUnreachable();
         return pairings.stream()
                 .filter(p -> (these.contains(p.ingredient()) && those.contains(p.partner()))
                         || (those.contains(p.ingredient()) && these.contains(p.partner())))
@@ -128,5 +143,11 @@ public final class FakeGraph implements PairingGraph {
 
     private List<String> entryKindsOf(String name) {
         return kindsOf(name).stream().filter(entries::contains).toList();
+    }
+
+    private void failIfUnreachable() {
+        if (!reachable) {
+            throw new Unavailable(new IllegalStateException("no graph"));
+        }
     }
 }

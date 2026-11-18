@@ -7,7 +7,7 @@ import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionTable.
 import io.github.wbarrettdev.bulkcook.optimiser.week.application.WeekOptimiser;
 import io.github.wbarrettdev.bulkcook.optimiser.week.domain.Targets;
 import io.github.wbarrettdev.bulkcook.optimiser.week.domain.Week;
-import io.github.wbarrettdev.bulkcook.optimiser.week.infrastructure.mcp.RequestJson;
+import io.github.wbarrettdev.bulkcook.optimiser.week.infrastructure.mcp.SolveWeekInput;
 import io.github.wbarrettdev.bulkcook.optimiser.week.infrastructure.ortools.OrToolsWeekSolver;
 import java.io.IOException;
 import java.io.Reader;
@@ -42,12 +42,16 @@ public final class Fixtures {
         return request("targets.json");
     }
 
+    private static SolveWeekInput input() {
+        return SolveWeekInput.read(Map.of("week", weekRequest(), "targets", targetsRequest()));
+    }
+
     public static Week week() {
-        return RequestJson.week(weekRequest());
+        return input().toWeek();
     }
 
     public static Targets targets() {
-        return RequestJson.targets(targetsRequest());
+        return input().toTargets();
     }
 
     /** The made-up nutrition tables as a repository would hand them over, before portions are counted. */

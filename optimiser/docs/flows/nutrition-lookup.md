@@ -30,6 +30,10 @@ sequenceDiagram
     T-->>C: the same, as text and as structured content
 ```
 
+## Seeing what's already stored
+
+`find_ingredients` takes words from an ingredient's name and shows what the table holds for it: each unit it's stored in, its values per 100g, its five-a-day category and the record it came from. It's how a caller gets an ingredient's exact name before writing a week, and checks whether a row is there before adding one.
+
 ## The three sources
 
 | Source | Where it's read from | Used for |
@@ -40,7 +44,7 @@ sequenceDiagram
 
 Each source measures things its own way, so each is converted to the figures a European food label gives: carbohydrate by its own weight with fibre apart, and salt in place of sodium.
 
-The two HTTP sources are asked again, up to three times, when they answer that they're busy. Open Food Facts has a second search service that's used when the main one is down.
+The two HTTP sources are tried up to three times when they answer that they're busy. Open Food Facts has a second search service that's used when the main one is down, and a barcode typed as the search finds that one product.
 
 ## Why the record is fetched twice
 

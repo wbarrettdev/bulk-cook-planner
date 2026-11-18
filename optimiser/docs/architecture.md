@@ -8,6 +8,8 @@ Flows:
 
 Data: [the nutrition database](data-model.md)
 
+Contract: [what `solve_week` takes](solve-week.schema.json), as a JSON Schema. It's generated from the code and a test keeps this copy in step.
+
 ## Components
 
 What this service is made of. How it connects to the other services is in the root [ARCHITECTURE.md](../../ARCHITECTURE.md).
@@ -18,7 +20,7 @@ flowchart TB
 
     subgraph optimiser["optimiser (Spring Boot)"]
         weekTool["solve_week<br/>MCP tool"]
-        nutritionTools["search_nutrition, add_nutrition_row<br/>MCP tools"]
+        nutritionTools["search_nutrition, add_nutrition_row,<br/>find_ingredients<br/>MCP tools"]
         weekOptimiser["WeekOptimiser<br/>checks a week, solves it, reports"]
         lookup["NutritionLookup<br/>finds a record and stores it"]
         solver["Week solver<br/>OR-Tools, SCIP"]
@@ -52,7 +54,7 @@ flowchart TB
 |---|---|
 | MCP tools | Read the request, call the use case, and answer as text and as structured content |
 | `WeekOptimiser` | Checks the targets and the week, has the week solved, and builds the report |
-| `NutritionLookup` | Searches a source, and stores a record as an ingredient's rows |
+| `NutritionLookup` | Searches a source, stores a record as an ingredient's rows, and shows what's already stored |
 | Week solver | Builds the mixed-integer programme and solves it |
 | Nutrition repository | Reads the nutrition table, and adds rows without changing any that are there |
 | CoFID, USDA and Open Food Facts sources | Search one reference source each, and turn its figures into a food label's |

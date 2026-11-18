@@ -11,6 +11,7 @@ import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.IngredientNutri
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.LookupProblem;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionRepository;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionRepository.Stored;
+import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionTable.Entry;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.Source;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,14 @@ public class NutritionLookup {
             throw new LookupProblem("Say which food to look for.");
         }
         return the(source).search(query.strip());
+    }
+
+    /** What the nutrition table already holds, for ingredients named with these words. */
+    public List<Entry> storedIngredients(String words) {
+        if (words == null || words.isBlank()) {
+            throw new LookupProblem("Say which ingredient to look for.");
+        }
+        return nutrition.table().entriesNamedWith(words);
     }
 
     /** Reads the record again from its source, so the stored values are the source's and nobody's copy. */

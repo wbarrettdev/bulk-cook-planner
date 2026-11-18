@@ -82,8 +82,15 @@ public class PairingAdvisor {
             ingredients = List.copyOf(ingredients);
             alsoExclude = List.copyOf(alsoExclude);
             if (limit < 1) {
-                throw new IllegalArgumentException("The limit must be at least 1, not " + limit);
+                throw new InvalidRequest("The limit must be at least 1, not " + limit + ".");
             }
+        }
+    }
+
+    /** A request that can't be acted on as asked. The message says what to change. */
+    public static class InvalidRequest extends RuntimeException {
+        public InvalidRequest(String message) {
+            super(message);
         }
     }
 }

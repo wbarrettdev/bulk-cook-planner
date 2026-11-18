@@ -1,0 +1,363 @@
+{
+  "$schema" : "https://json-schema.org/draft/2020-12/schema",
+  "type" : "object",
+  "properties" : {
+    "week" : {
+      "type" : "object",
+      "properties" : {
+        "recipes" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object",
+            "properties" : {
+              "title" : {
+                "type" : "string",
+                "description" : "The dish's name, for the report."
+              },
+              "file" : {
+                "type" : "string",
+                "description" : "Where the recipe is written. Carried for the caller; the solver ignores it."
+              },
+              "portions" : {
+                "type" : "integer",
+                "description" : "How many plates the recipe makes in all. It must cover every meal that eats it, for every person. Plates left over are reported as spare.",
+                "exclusiveMinimum" : 0
+              },
+              "cooks" : {
+                "type" : "integer",
+                "description" : "How many times it is cooked. 1, the default, for a batch cooked once. A dish made fresh each time has one cook for each meal that eats it. Must divide portions.",
+                "exclusiveMinimum" : 0
+              },
+              "anchor" : {
+                "type" : "string",
+                "description" : "The name of the main ingredient. Every other ingredient with a book amount stays in proportion to it. Needed when any ingredient has a book amount."
+              },
+              "max_batch_g" : {
+                "type" : "number",
+                "description" : "The most food, in grams, that one cook may hold: the pot's limit.",
+                "minimum" : 0
+              },
+              "ingredients" : {
+                "description" : "What goes into it. Leave out for a frozen recipe.",
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "description" : "The ingredient's name, as the nutrition table has it.",
+                      "minLength" : 1
+                    },
+                    "unit" : {
+                      "type" : "string",
+                      "description" : "The unit its amounts are in: g, ml, tsp, tbsp and so on. Leave out, or write each, for a counted item such as an egg."
+                    },
+                    "note" : {
+                      "type" : "string",
+                      "description" : "Picks a second set of values in the nutrition table: rice with the note \"dry weight\" uses the row named rice|dry."
+                    },
+                    "book" : {
+                      "type" : "number",
+                      "description" : "The amount the source recipe uses. With it, the ingredient follows the anchor. Without it, the ingredient is sized freely between min and max.",
+                      "exclusiveMinimum" : 0
+                    },
+                    "min" : {
+                      "type" : "number",
+                      "description" : "The least of it to use. Needed, with max, for the anchor and for any ingredient without a book amount.",
+                      "minimum" : 0
+                    },
+                    "max" : {
+                      "type" : "number",
+                      "description" : "The most of it to use.",
+                      "minimum" : 0
+                    },
+                    "step" : {
+                      "type" : "number",
+                      "description" : "The smallest sensible change in its amount: 10 for 10g of meat, 1 for an egg. Left out, it is 5 for g and ml, 0.25 for tsp, 0.5 for tbsp, and 1 for anything else.",
+                      "exclusiveMinimum" : 0
+                    },
+                    "role" : {
+                      "type" : "string",
+                      "description" : "Which band it may move in: a key of the targets' ratio_bounds, such as veg, liquid, fat, salty or fixed. Left out, it is default. Only with a book amount."
+                    },
+                    "lo" : {
+                      "type" : "number",
+                      "description" : "Replaces the low end of its role's band, as a multiple of its book ratio to the anchor. Only with a book amount.",
+                      "minimum" : 0
+                    },
+                    "hi" : {
+                      "type" : "number",
+                      "description" : "Replaces the high end of its role's band. Only with a book amount.",
+                      "minimum" : 0
+                    },
+                    "per_portion" : {
+                      "type" : "boolean",
+                      "description" : "True when min and max are for one plate, not one cook: a side, or something made to order. Not with a book amount."
+                    }
+                  },
+                  "required" : [ "name" ],
+                  "additionalProperties" : false
+                }
+              },
+              "frozen" : {
+                "type" : "object",
+                "properties" : {
+                  "kcal" : {
+                    "type" : "number",
+                    "description" : "Calories.",
+                    "minimum" : 0
+                  },
+                  "protein" : {
+                    "type" : "number",
+                    "description" : "Protein, in grams.",
+                    "minimum" : 0
+                  },
+                  "fat" : {
+                    "type" : "number",
+                    "description" : "Fat, in grams.",
+                    "minimum" : 0
+                  },
+                  "carbs" : {
+                    "type" : "number",
+                    "description" : "Carbohydrate, in grams.",
+                    "minimum" : 0
+                  },
+                  "salt" : {
+                    "type" : "number",
+                    "description" : "Salt, in grams.",
+                    "minimum" : 0
+                  },
+                  "fibre" : {
+                    "type" : "number",
+                    "description" : "Fibre, in grams.",
+                    "minimum" : 0
+                  },
+                  "portions" : {
+                    "type" : "number",
+                    "description" : "Portions of veg and fruit, towards five a day.",
+                    "minimum" : 0
+                  }
+                },
+                "required" : [ "kcal", "protein", "fat", "carbs", "salt", "fibre", "portions" ],
+                "additionalProperties" : false,
+                "description" : "Set this, and no ingredients, for plates taken from the freezer. Nothing is cooked or bought for them."
+              }
+            },
+            "required" : [ "portions" ],
+            "additionalProperties" : false
+          },
+          "description" : "The recipes to scale, each under an id of your choosing. Days name recipes by these ids.",
+          "minProperties" : 1
+        },
+        "days" : {
+          "description" : "The days to plan, in order.",
+          "minItems" : 1,
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "day" : {
+                "type" : "string",
+                "description" : "The day's name, such as Mon 2026-11-09.",
+                "minLength" : 1
+              },
+              "meals" : {
+                "type" : "object",
+                "additionalProperties" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "description" : "The recipe ids each meal eats, under the meal's name. The meals are the ones the targets' meal_kcal names, and a day needs every one. A recipe named twice is eaten twice.",
+                "minProperties" : 1
+              }
+            },
+            "required" : [ "day", "meals" ],
+            "additionalProperties" : false
+          }
+        }
+      },
+      "required" : [ "recipes", "days" ],
+      "additionalProperties" : false,
+      "description" : "The week to scale."
+    },
+    "targets" : {
+      "type" : "object",
+      "properties" : {
+        "people" : {
+          "type" : "integer",
+          "description" : "How many people each meal feeds. Left out, it is 2.",
+          "exclusiveMinimum" : 0
+        },
+        "targets_per_person_day" : {
+          "type" : "object",
+          "properties" : {
+            "kcal" : {
+              "type" : "number",
+              "description" : "Calories.",
+              "exclusiveMinimum" : 0
+            },
+            "protein" : {
+              "type" : "number",
+              "description" : "Protein, in grams.",
+              "exclusiveMinimum" : 0
+            },
+            "fat" : {
+              "type" : "number",
+              "description" : "Fat, in grams.",
+              "exclusiveMinimum" : 0
+            },
+            "carbs" : {
+              "type" : "number",
+              "description" : "Carbohydrate, in grams. Left out, carbs are not held to a target.",
+              "exclusiveMinimum" : 0
+            }
+          },
+          "required" : [ "kcal", "protein", "fat" ],
+          "additionalProperties" : false,
+          "description" : "What one person should eat in a day."
+        },
+        "tolerances" : {
+          "type" : "object",
+          "properties" : {
+            "kcal_pct" : {
+              "type" : "number",
+              "description" : "How far a day's calories may be from the target, as a percentage either way.",
+              "minimum" : 0
+            },
+            "protein_below_g" : {
+              "type" : "number",
+              "description" : "How many grams under its protein target a day may be.",
+              "minimum" : 0
+            },
+            "fat_over_g" : {
+              "type" : "number",
+              "description" : "How many grams over its fat target a day may be.",
+              "minimum" : 0
+            }
+          },
+          "required" : [ "kcal_pct", "protein_below_g", "fat_over_g" ],
+          "additionalProperties" : false,
+          "description" : "How far a day may miss a target and still pass its check."
+        },
+        "salt_max_g_per_person_day" : {
+          "type" : "number",
+          "description" : "The most salt one person may eat in a day, in grams.",
+          "minimum" : 0
+        },
+        "meal_kcal" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
+          "description" : "Each meal's name, with the fewest and the most calories it may have as [fewest, most]. These names are the meals a day has.",
+          "minProperties" : 1
+        },
+        "weights" : {
+          "type" : "object",
+          "properties" : {
+            "kcal" : {
+              "type" : "number",
+              "description" : "For missing the calories.",
+              "minimum" : 0
+            },
+            "protein" : {
+              "type" : "number",
+              "description" : "For missing the protein.",
+              "minimum" : 0
+            },
+            "fat" : {
+              "type" : "number",
+              "description" : "For missing the fat.",
+              "minimum" : 0
+            },
+            "carbs" : {
+              "type" : "number",
+              "description" : "For missing the carbs. Needed when carbs have a target.",
+              "minimum" : 0
+            },
+            "stay_near_book" : {
+              "type" : "number",
+              "description" : "For an ingredient drifting from its amount in the source recipe.",
+              "minimum" : 0
+            }
+          },
+          "required" : [ "kcal", "protein", "fat", "stay_near_book" ],
+          "additionalProperties" : false,
+          "description" : "How much it costs to miss each target. A bigger number is held to more tightly."
+        },
+        "ratio_bounds" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
+          "description" : "For each ingredient role, how far an ingredient may move from its book ratio to the anchor, as [lowest, highest] multiples. Must have default. The roles fat and salty never go above the book, whatever their band says.",
+          "minProperties" : 1
+        },
+        "fibre_min_g_per_person_day" : {
+          "type" : "number",
+          "description" : "The least fibre one person should eat in a day, in grams.",
+          "minimum" : 0
+        },
+        "five_a_day" : {
+          "type" : "object",
+          "properties" : {
+            "min_per_day" : {
+              "type" : "number",
+              "description" : "The fewest portions one person should eat in a day.",
+              "minimum" : 0
+            },
+            "portion_g" : {
+              "type" : "object",
+              "properties" : {
+                "veg" : {
+                  "type" : "number",
+                  "description" : "Vegetables.",
+                  "exclusiveMinimum" : 0
+                },
+                "fruit" : {
+                  "type" : "number",
+                  "description" : "Fruit.",
+                  "exclusiveMinimum" : 0
+                },
+                "dried" : {
+                  "type" : "number",
+                  "description" : "Dried fruit.",
+                  "exclusiveMinimum" : 0
+                },
+                "pulse" : {
+                  "type" : "number",
+                  "description" : "Beans and lentils. They count once a day at most, however much is eaten.",
+                  "exclusiveMinimum" : 0
+                },
+                "juice" : {
+                  "type" : "number",
+                  "description" : "Juice, in grams. It counts once a day at most.",
+                  "exclusiveMinimum" : 0
+                }
+              },
+              "required" : [ "veg", "fruit", "dried", "pulse", "juice" ],
+              "additionalProperties" : false,
+              "description" : "What one portion of each kind weighs, in grams."
+            }
+          },
+          "required" : [ "min_per_day", "portion_g" ],
+          "additionalProperties" : false,
+          "description" : "Portions of veg and fruit: how many a day, and what a portion weighs."
+        }
+      },
+      "required" : [ "targets_per_person_day", "tolerances", "salt_max_g_per_person_day", "meal_kcal", "weights", "ratio_bounds", "fibre_min_g_per_person_day", "five_a_day" ],
+      "additionalProperties" : false,
+      "description" : "What each day should come to, and how far a recipe may drift from its source."
+    }
+  },
+  "required" : [ "week", "targets" ],
+  "additionalProperties" : false
+}

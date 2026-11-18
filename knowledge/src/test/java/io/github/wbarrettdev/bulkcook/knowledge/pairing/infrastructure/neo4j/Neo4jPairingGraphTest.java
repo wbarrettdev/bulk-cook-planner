@@ -8,13 +8,8 @@ import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingGraph.Comb
 import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingGraph.Ingredient;
 import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingGraph.IngredientNotes;
 import io.github.wbarrettdev.bulkcook.knowledge.pairing.domain.PairingGraph.Pairing;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,28 +19,21 @@ import org.neo4j.driver.GraphDatabase;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.neo4j.Neo4jContainer;
-import org.testcontainers.utility.MountableFile;
 
 /** Runs the queries against a real Neo4j holding the sample pairings. */
 @Testcontainers(disabledWithoutDocker = true)
 class Neo4jPairingGraphTest {
 
-    private static final Path SAMPLE = Path.of("..", "samples", "pairings");
-
     @Container
-    private static final Neo4jContainer NEO4J = new Neo4jContainer("neo4j:5-community")
-            .withoutAuthentication()
-            .withCopyFileToContainer(MountableFile.forHostPath(SAMPLE), "/var/lib/neo4j/import");
+    private static final Neo4jContainer NEO4J = SampleGraph.container();
 
     private static Driver driver;
     private static Neo4jPairingGraph graph;
 
     @BeforeAll
-    static void loadTheSample() throws IOException {
+    static void loadTheSample() {
         driver = GraphDatabase.driver(NEO4J.getBoltUrl(), AuthTokens.none());
-        for (String statement : statementsIn(SAMPLE.resolve("load.cypher"))) {
-            driver.executableQuery(statement).execute();
-        }
+        SampleGraph.loadInto(driver);
         graph = new Neo4jPairingGraph(driver);
     }
 
@@ -151,15 +139,5 @@ class Neo4jPairingGraphTest {
                 .filter(candidate -> candidate.name().equals(partner))
                 .findFirst()
                 .orElseThrow();
-    }
-
-    private static List<String> statementsIn(Path script) throws IOException {
-        String withoutComments = Files.readAllLines(script).stream()
-                .filter(line -> !line.strip().startsWith("//"))
-                .collect(Collectors.joining("\n"));
-        return Arrays.stream(withoutComments.split(";"))
-                .map(String::strip)
-                .filter(statement -> !statement.isEmpty())
-                .toList();
     }
 }

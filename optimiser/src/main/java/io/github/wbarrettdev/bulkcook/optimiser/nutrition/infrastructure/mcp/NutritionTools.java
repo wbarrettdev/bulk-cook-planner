@@ -9,6 +9,7 @@ import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FoodReference;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FoodSource;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.LookupProblem;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionRepository;
+import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionTable.Entry;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.Source;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import java.util.List;
@@ -60,7 +61,37 @@ class NutritionTools {
             List<FoodRecord> records = lookup.search(asked, query);
             return CallToolResult.builder()
                     .addTextContent(NutritionText.of(asked, query, records))
-                    .structuredContent(new Found(asked.key(), records))
+                    .structuredContent(new FoundRecords(asked.key(), records))
+                    .build();
+        });
+    }
+
+    @McpTool(
+            name = "find_ingredients",
+            title = "Find ingredients in the nutrition table",
+            description = "Look in the nutrition table for ingredients that are already stored, by words in"
+                    + " their name. Use it before writing a week, to get an ingredient's exact name, the units"
+                    + " it is stored in, and the state its values are for (raw, dry, drained, cooked), which"
+                    + " its source says. Use it before adding a row, to see whether one is already there. A"
+                    + " name written \"name|text\" is a second set of values, used when a recipe's note for"
+                    + " the ingredient contains the text.",
+            annotations =
+                    @McpAnnotations(
+                            title = "Find ingredients in the nutrition table",
+                            readOnlyHint = true,
+                            destructiveHint = false,
+                            idempotentHint = true,
+                            openWorldHint = false))
+    CallToolResult findIngredients(
+            @McpToolParam(
+                            description = "Words in the ingredient's name, e.g. \"rice\" or \"chicken thigh\"",
+                            required = true)
+                    String query) {
+        return answer(() -> {
+            List<Entry> entries = lookup.storedIngredients(query);
+            return CallToolResult.builder()
+                    .addTextContent(NutritionText.of(query, entries))
+                    .structuredContent(new StoredIngredients(entries))
                     .build();
         });
     }
@@ -151,6 +182,9 @@ class NutritionTools {
         return text == null ? "" : text.strip().toLowerCase(Locale.ROOT);
     }
 
+    /** What the table holds, as structured content. */
+    record StoredIngredients(List<Entry> ingredients) {}
+
     /** A search's answer as structured content. */
-    record Found(String source, List<FoodRecord> records) {}
+    record FoundRecords(String source, List<FoodRecord> records) {}
 }

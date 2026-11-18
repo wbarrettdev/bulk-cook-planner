@@ -28,6 +28,7 @@
     <ortools.version>9.15.6755</ortools.version>
     <commons-csv.version>1.14.1</commons-csv.version>
     <archunit.version>1.5.1</archunit.version>
+    <jsonschema-generator.version>5.0.0</jsonschema-generator.version>
   </properties>
 
   <dependencyManagement>
@@ -53,6 +54,21 @@
         <groupId>com.tngtech.archunit</groupId>
         <artifactId>archunit</artifactId>
         <version>${archunit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.victools</groupId>
+        <artifactId>jsonschema-generator</artifactId>
+        <version>${jsonschema-generator.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.victools</groupId>
+        <artifactId>jsonschema-module-jackson</artifactId>
+        <version>${jsonschema-generator.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.victools</groupId>
+        <artifactId>jsonschema-module-jakarta-validation</artifactId>
+        <version>${jsonschema-generator.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

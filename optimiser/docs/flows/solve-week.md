@@ -11,6 +11,7 @@ sequenceDiagram
     participant S as OR-Tools
 
     C->>T: week, targets
+    T->>T: check the call against the schema
     T->>T: read the request
     T->>W: optimise
     W->>W: check the targets are complete
@@ -30,8 +31,8 @@ Each of these comes back as the tool's answer, marked as an error, with what to 
 
 | Where | Why | The answer says |
 |---|---|---|
-| Reading the request | A value has the wrong shape, such as 4.7 portions | Which value, by its path in the request |
-| Checking the targets | Something the solve relies on is missing | Every gap, not only the first |
+| Checking the call against the schema | A field is missing, misspelt or the wrong kind, such as 4.7 portions | Every such problem, each by its path in the request |
+| Checking the targets | They break a rule the schema can't state, such as carbs having a target but no weight | Every gap, not only the first |
 | Checking the week | An unknown recipe, a meal with nothing in it, an ingredient that isn't in the table | Every problem found |
 | Reading the table | The database can't be reached | That the nutrition tables can't be reached |
 | Solving | No amounts can meet every bound | To change the plan, with suggestions |

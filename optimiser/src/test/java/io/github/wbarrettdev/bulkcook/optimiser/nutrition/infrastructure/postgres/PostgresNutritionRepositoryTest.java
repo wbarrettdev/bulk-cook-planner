@@ -35,7 +35,7 @@ class PostgresNutritionRepositoryTest {
     @ServiceConnection
     private static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:18");
 
-    private final NutritionTable sample = Fixtures.storedTable();
+    private NutritionTable sample;
 
     @Autowired
     private NutritionRepository repository;
@@ -48,34 +48,7 @@ class PostgresNutritionRepositoryTest {
 
     @BeforeEach
     void storeTheSample() {
-        jdbc.sql("TRUNCATE ingredient_macros, ingredient_salt, ingredient_fibre," + " ingredient_five_a_day")
-                .update();
-        sample.rows()
-                .forEach(row -> jdbc.sql("INSERT INTO ingredient_macros VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-                        .params(
-                                row.ingredient(),
-                                row.unit(),
-                                row.gramsPerUnit(),
-                                row.kcal(),
-                                row.protein(),
-                                row.fat(),
-                                row.carbs(),
-                                row.source())
-                        .update());
-        sample.saltPer100g()
-                .forEach((ingredient, salt) -> jdbc.sql(
-                                "INSERT INTO ingredient_salt (ingredient, salt_g_per_100g) VALUES (?, ?)")
-                        .params(ingredient, salt)
-                        .update());
-        sample.fibrePer100g()
-                .forEach((ingredient, fibre) -> jdbc.sql(
-                                "INSERT INTO ingredient_fibre (ingredient, fibre_g_per_100g) VALUES (?, ?)")
-                        .params(ingredient, fibre)
-                        .update());
-        sample.categories()
-                .forEach((ingredient, category) -> jdbc.sql("INSERT INTO ingredient_five_a_day VALUES (?, ?)")
-                        .params(ingredient, category)
-                        .update());
+        sample = StoredSample.into(jdbc);
     }
 
     @Test

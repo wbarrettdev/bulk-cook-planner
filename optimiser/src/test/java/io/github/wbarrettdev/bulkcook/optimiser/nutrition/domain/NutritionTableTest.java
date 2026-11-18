@@ -83,4 +83,29 @@ class NutritionTableTest {
         assertThat(eggs.perUnit("recipe", "egg", "each", "")).isEqualTo(eggs.perUnit("recipe", "egg", "", ""));
         assertThat(eggs.perUnit("recipe", "egg", "Each", "")).isInstanceOf(PerUnit.class);
     }
+
+    @Test
+    void findsWhatIsStoredByWordsInTheName() {
+        assertThat(table.entriesNamedWith("rice"))
+                .extracting(NutritionTable.Entry::ingredient)
+                .containsExactly("white rice", "white rice|dry");
+        assertThat(table.entriesNamedWith("Rice, DRY")).hasSize(1);
+        assertThat(table.entriesNamedWith("dragon")).isEmpty();
+        assertThat(table.entriesNamedWith(" ")).isEmpty();
+    }
+
+    @Test
+    void putsAnIngredientsFourTablesTogether() {
+        assertThat(table.entriesNamedWith("carrot"))
+                .containsExactly(new NutritionTable.Entry("carrot", "g", 1, 40, 0.9, 0.2, 8, 0.1, 2.8, "veg", "raw"));
+    }
+
+    @Test
+    void givesASecondSetOfValuesThePlainNamesSaltWhenItHasNoneOfItsOwn() {
+        NutritionTable.Entry dry = table.entriesNamedWith("white rice dry").getFirst();
+
+        assertThat(dry.salt()).isEqualTo(0.0);
+        assertThat(dry.fibre()).isNull();
+        assertThat(dry.fiveADay()).isNull();
+    }
 }

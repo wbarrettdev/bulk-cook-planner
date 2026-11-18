@@ -6,6 +6,7 @@ import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FoodValues;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.IngredientNutrition;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionRepository.Outcome;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionRepository.Stored;
+import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.NutritionTable.Entry;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.Source;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,6 +27,33 @@ final class NutritionText {
         lines.add(source.title() + " records for \"" + query + "\", per 100g:");
         records.forEach(record -> lines.addAll(describe(record)));
         return String.join("\n", lines);
+    }
+
+    private static final int MOST_LISTED = 25;
+
+    static String of(String words, List<Entry> entries) {
+        if (entries.isEmpty()) {
+            return "No ingredient in the nutrition table is named with \"" + words
+                    + "\". Look it up with search_nutrition and add it with add_nutrition_row.";
+        }
+        List<String> lines = new ArrayList<>();
+        lines.add("Ingredients in the nutrition table named with \"" + words + "\", per 100g:");
+        entries.stream().limit(MOST_LISTED).forEach(entry -> lines.addAll(describe(entry)));
+        if (entries.size() > MOST_LISTED) {
+            lines.add("and " + (entries.size() - MOST_LISTED) + " more. Use more words to narrow it down.");
+        }
+        return String.join("\n", lines);
+    }
+
+    private static List<String> describe(Entry entry) {
+        return List.of(
+                entry.ingredient() + " (" + (entry.unit().isEmpty() ? "each" : entry.unit()) + ", "
+                        + plain(entry.gramsPerUnit()) + "g)",
+                "    " + plain(entry.kcal()) + " kcal, protein " + plain(entry.protein()) + "g, fat "
+                        + plain(entry.fat()) + "g, carbs " + plain(entry.carbs()) + "g, fibre " + grams(entry.fibre())
+                        + ", salt " + grams(entry.salt()),
+                "    five-a-day: " + (entry.fiveADay() == null ? "doesn't count" : entry.fiveADay()),
+                "    source: " + (entry.source().isEmpty() ? "not recorded" : entry.source()));
     }
 
     static String of(Addition addition) {

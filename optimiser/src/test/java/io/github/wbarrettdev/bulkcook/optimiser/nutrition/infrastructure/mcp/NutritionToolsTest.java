@@ -9,7 +9,7 @@ import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FakeSource;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FoodRecord;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.FoodSource;
 import io.github.wbarrettdev.bulkcook.optimiser.nutrition.domain.Source;
-import io.github.wbarrettdev.bulkcook.optimiser.nutrition.infrastructure.mcp.NutritionTools.Found;
+import io.github.wbarrettdev.bulkcook.optimiser.nutrition.infrastructure.mcp.NutritionTools.FoundRecords;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import io.modelcontextprotocol.spec.McpSchema.TextContent;
 import java.util.List;
@@ -31,7 +31,7 @@ class NutritionToolsTest {
                         cofid:13-234  Curly kale, raw
                             33 kcal, protein 3.4g, fat 1.6g, carbs 1.3g, fibre 4.1g, salt 0.11g
                             five-a-day: veg (from its food group; check it)""");
-        assertThat(result.structuredContent()).isEqualTo(new Found("cofid", List.of(FakeSource.KALE)));
+        assertThat(result.structuredContent()).isEqualTo(new FoundRecords("cofid", List.of(FakeSource.KALE)));
     }
 
     @Test
@@ -145,5 +145,34 @@ class NutritionToolsTest {
 
     private static String text(CallToolResult result) {
         return ((TextContent) result.content().getFirst()).text();
+    }
+
+    @Test
+    void showsWhatTheTableHoldsForAnIngredient() {
+        tools.addNutritionRow("cofid:13-234", "kale", "g", 1.0, "veg");
+        tools.addNutritionRow("cofid:13-234", "kale", "handful", 30.0, "veg");
+
+        CallToolResult result = tools.findIngredients("kale");
+
+        assertThat(text(result)).isEqualTo("""
+                        Ingredients in the nutrition table named with "kale", per 100g:
+                        kale (g, 1g)
+                            33 kcal, protein 3.4g, fat 1.6g, carbs 1.3g, fibre 4.1g, salt 0.11g
+                            five-a-day: veg
+                            source: cofid:13-234 Curly kale, raw
+                        kale (handful, 30g)
+                            33 kcal, protein 3.4g, fat 1.6g, carbs 1.3g, fibre 4.1g, salt 0.11g
+                            five-a-day: veg
+                            source: cofid:13-234 Curly kale, raw""");
+    }
+
+    @Test
+    void pointsToTheLookupWhenAnIngredientIsNotStored() {
+        CallToolResult result = tools.findIngredients("dragon fruit");
+
+        assertThat(result.isError()).isNotEqualTo(Boolean.TRUE);
+        assertThat(text(result))
+                .isEqualTo("No ingredient in the nutrition table is named with \"dragon fruit\". Look it up with"
+                        + " search_nutrition and add it with add_nutrition_row.");
     }
 }

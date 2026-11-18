@@ -44,3 +44,5 @@ A dish with one ingredient matches any combination that contains it. With two or
 |---|---|
 | None of the names are in the graph | Which names weren't found, with close names to try. No suggestions |
 | The graph can't be reached | That there are no pairings to offer right now |
+| The call leaves out the ingredients | Which field is missing. The server checks each call against the tool's schema |
+| The limit is below 1 | That the limit must be at least 1 |

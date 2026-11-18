@@ -25,6 +25,7 @@ I'm building the tools first and the agents last. Two tool servers run today. Th
 | `solve_week` | `optimiser` | Scales a week's recipes so each day hits its targets, keeping each recipe in proportion |
 | `search_nutrition` | `optimiser` | Searches CoFID, USDA or Open Food Facts for a food's values per 100g |
 | `add_nutrition_row` | `optimiser` | Stores an ingredient's nutrition, taken from one of those records |
+| `find_ingredients` | `optimiser` | Shows what the nutrition table already holds for an ingredient |
 
 Every quantity in a plan comes from the solver, and every nutrition value from a named record. The model never types a number.
 
