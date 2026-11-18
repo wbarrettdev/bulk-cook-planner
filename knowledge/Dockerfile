@@ -6,6 +6,7 @@ FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /build
 COPY pom.xml .
 COPY knowledge/pom.xml knowledge/
+COPY optimiser/pom.xml optimiser/
 COPY knowledge/src knowledge/src
 RUN --mount=type=cache,target=/root/.m2 \
     mvn -B -q -pl knowledge -am -DskipTests package

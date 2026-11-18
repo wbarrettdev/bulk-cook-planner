@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: optimiser
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/nutrition}
+    username: ${POSTGRES_USER:bulkcook}
+    password: ${POSTGRES_PASSWORD:bulkcook}
+  http:
+    clients:
+      connect-timeout: 5s
+      read-timeout: 30s
+  ai:
+    mcp:
+      server:
+        name: optimiser
+        version: 0.1.0
+        protocol: STREAMABLE
+
+server:
+  port: 8083
+
+# The reference sources on the internet. CoFID needs no settings: it is in the database.
+nutrition:
+  sources:
+    user-agent: bulk-cook-planner
+    retry-delay: 3s
+    usda:
+      base-url: https://api.nal.usda.gov/fdc/v1
+      # A free key from https://fdc.nal.usda.gov/api-key-signup. Without one, USDA's shared DEMO_KEY is
+      # used, which allows a few dozen lookups an hour.
+      api-key: ${USDA_API_KEY:}
+    open-food-facts:
+      base-url: https://world.openfoodfacts.org
+      search-url: https://search.openfoodfacts.org
+      # Country tags, such as en:spain, whose products a search lists first.
+      preferred-countries: ${OPEN_FOOD_FACTS_COUNTRIES:}

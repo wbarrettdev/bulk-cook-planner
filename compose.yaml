@@ -46,6 +46,25 @@ services:
       - ./volumes/graphdb/logs:/logs
       - ./volumes/graphdb/import:/import:ro
 
+  db:
+    image: pgvector/pgvector:pg18
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_USER=bulkcook
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD-bulkcook}
+      - POSTGRES_DB=bulkcook
+    volumes:
+      - ./volumes/db:/var/lib/postgresql
+    configs:
+      - source: create-databases
+        target: /docker-entrypoint-initdb.d/create-databases.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U bulkcook"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   knowledge:
     build:
       context: .
@@ -59,3 +78,25 @@ services:
         required: false
     depends_on:
       - graphdb
+
+  optimiser:
+    build:
+      context: .
+      dockerfile: optimiser/Dockerfile
+    ports:
+      - "127.0.0.1:8083:8083"
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://db:5432/nutrition
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      db:
+        condition: service_healthy
+
+configs:
+  # Each service that keeps data has a database of its own. This runs only the
+  # first time the db service starts, while volumes/db is still empty.
+  create-databases:
+    content: |
+      CREATE DATABASE nutrition;

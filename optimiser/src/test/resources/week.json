@@ -1,0 +1,79 @@
+{
+  "recipes": {
+    "porridge": {
+      "title": "Porridge with banana and yoghurt",
+      "file": "meal-planning/porridge.cook",
+      "portions": 2,
+      "cooks": 2,
+      "ingredients": [
+        { "name": "oats", "unit": "g", "min": 40, "max": 90, "per_portion": true },
+        { "name": "milk", "unit": "ml", "min": 150, "max": 300, "per_portion": true },
+        { "name": "banana", "unit": "g", "min": 80, "max": 160, "per_portion": true },
+        { "name": "greek yoghurt", "unit": "g", "min": 100, "max": 300, "per_portion": true }
+      ]
+    },
+    "chicken-stew": {
+      "title": "Chicken and chickpea stew",
+      "file": "meal-planning/chicken-stew.cook",
+      "portions": 4,
+      "anchor": "chicken thigh",
+      "max_batch_g": 3800,
+      "ingredients": [
+        { "name": "chicken thigh", "unit": "g", "book": 800, "min": 500, "max": 1100, "step": 10 },
+        { "name": "onion", "unit": "g", "book": 200, "role": "veg" },
+        { "name": "carrot", "unit": "g", "book": 300, "role": "veg" },
+        { "name": "chopped tomatoes", "unit": "g", "book": 400, "role": "veg" },
+        { "name": "chickpeas", "unit": "g", "book": 240 },
+        { "name": "olive oil", "unit": "tsp", "book": 3, "role": "fat" },
+        { "name": "cumin", "unit": "tsp", "book": 2 }
+      ]
+    },
+    "rice-and-broccoli": {
+      "title": "Rice and steamed broccoli",
+      "file": "meal-planning/chicken-stew.cook",
+      "portions": 2,
+      "cooks": 2,
+      "ingredients": [
+        { "name": "white rice", "unit": "g", "note": "dry weight", "min": 40, "max": 110, "per_portion": true },
+        { "name": "broccoli", "unit": "g", "min": 80, "max": 240, "per_portion": true }
+      ]
+    },
+    "lentil-soup": {
+      "title": "Lentil and spinach soup with bread",
+      "file": "meal-planning/lentil-soup.cook",
+      "portions": 2,
+      "anchor": "lentils",
+      "max_batch_g": 2900,
+      "ingredients": [
+        { "name": "lentils", "unit": "g", "book": 500, "min": 300, "max": 800, "step": 10 },
+        { "name": "onion", "unit": "g", "book": 150, "role": "veg" },
+        { "name": "carrot", "unit": "g", "book": 200, "role": "veg" },
+        { "name": "spinach", "unit": "g", "book": 150, "role": "veg" },
+        { "name": "olive oil", "unit": "tsp", "book": 2, "role": "fat" },
+        { "name": "cumin", "unit": "tsp", "book": 1 },
+        { "name": "wholemeal bread", "unit": "g", "min": 40, "max": 140, "per_portion": true }
+      ]
+    },
+    "salmon-and-potatoes": {
+      "title": "Baked salmon with potatoes and broccoli",
+      "file": "meal-planning/salmon-and-potatoes.cook",
+      "portions": 1,
+      "ingredients": [
+        { "name": "salmon", "unit": "g", "min": 100, "max": 200 },
+        { "name": "potatoes", "unit": "g", "min": 150, "max": 400 },
+        { "name": "broccoli", "unit": "g", "min": 80, "max": 240 },
+        { "name": "olive oil", "unit": "tsp", "min": 1, "max": 2 }
+      ]
+    }
+  },
+  "days": [
+    {
+      "day": "Mon",
+      "meals": { "breakfast": ["porridge"], "lunch": ["lentil-soup"], "dinner": ["chicken-stew", "rice-and-broccoli"] }
+    },
+    {
+      "day": "Tue",
+      "meals": { "breakfast": ["porridge"], "lunch": ["chicken-stew", "rice-and-broccoli"], "dinner": ["salmon-and-potatoes"] }
+    }
+  ]
+}

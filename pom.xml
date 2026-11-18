@@ -18,12 +18,16 @@
 
   <modules>
     <module>knowledge</module>
+    <module>optimiser</module>
   </modules>
 
   <properties>
     <java.version>21</java.version>
     <spring-ai.version>2.0.2</spring-ai.version>
     <spotless.version>3.11.0</spotless.version>
+    <ortools.version>9.15.6755</ortools.version>
+    <commons-csv.version>1.14.1</commons-csv.version>
+    <archunit.version>1.5.1</archunit.version>
   </properties>
 
   <dependencyManagement>
@@ -35,6 +39,21 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>com.google.ortools</groupId>
+        <artifactId>ortools-java</artifactId>
+        <version>${ortools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-csv</artifactId>
+        <version>${commons-csv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit</artifactId>
+        <version>${archunit.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -43,6 +62,11 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

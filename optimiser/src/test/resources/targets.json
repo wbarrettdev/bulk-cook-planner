@@ -1,0 +1,21 @@
+{
+  "people": 1,
+  "targets_per_person_day": { "kcal": 2000, "protein": 110, "fat": 65, "carbs": 240 },
+  "tolerances": { "kcal_pct": 5, "protein_below_g": 10, "fat_over_g": 10 },
+  "salt_max_g_per_person_day": 6,
+  "meal_kcal": { "breakfast": [350, 650], "lunch": [500, 850], "dinner": [500, 900] },
+  "weights": { "kcal": 6, "protein": 3, "fat": 1, "carbs": 0.5, "stay_near_book": 0.05 },
+  "ratio_bounds": {
+    "default": [0.85, 1.2],
+    "veg": [0.9, 1.6],
+    "liquid": [0.8, 1.3],
+    "fat": [0.9, 1.0],
+    "salty": [0.9, 1.0],
+    "fixed": [1.0, 1.0]
+  },
+  "fibre_min_g_per_person_day": 25,
+  "five_a_day": {
+    "min_per_day": 5,
+    "portion_g": { "veg": 80, "fruit": 80, "dried": 30, "pulse": 80, "juice": 150 }
+  }
+}
